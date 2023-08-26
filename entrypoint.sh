@@ -17,4 +17,5 @@ clinfo -l
 	-datadir=$DATA_DIR \
 	-numUnits=$NUM_UNITS \
  	-provider=$PROVIDER \
+	-maxFileSize=2147483648 \
 	$ID_ARG
