@@ -18,4 +18,4 @@ clinfo -l
 	-numUnits=$NUM_UNITS \
  	-provider=$PROVIDER \
 	-maxFileSize=2147483648 \
-	$ID_ARG || bash
+	$ID_ARG || sleep inf
