@@ -35,4 +35,7 @@ clinfo -l
  	-provider=$PROVIDER \
 	-maxFileSize=2147483648 \
 	$GEN_POST_RANGE_ARG \
-	$ID_ARG || sleep inf
+	$ID_ARG
+
+sleep inf
+
