@@ -14,7 +14,7 @@ mkdir -p ~/.config/rclone/
 $SCRIPT_DIR_PATH/gen-rclone-cfg-dropbox.sh $ACCESS_TOKEN > ~/.config/rclone/rclone.conf
 
 # copy data to dropbox
-rclone copy -P --fast-list --checksum --transfers=24 $SRC_FILES_LOCATION remote:$REMOTE_FILES_LOCATION
+rclone copy -P --fast-list --checksum --transfers=24 $SRC_FILES_LOCATION remote:$REMOTE_FILES_LOCATION &> ~/rclone.log
 
 # remove rclone config
 rm -f ~/.config/rclone/rclone.conf
