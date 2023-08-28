@@ -12,7 +12,7 @@ WORKDIR /root
 RUN apt-get update && \
     env DEBIAN_FRONTEND=noninteractive apt reinstall -y ca-certificates && \
         update-ca-certificates && \
-        apt-get install -y --no-install-recommends \
+    apt-get install -y --no-install-recommends \
 	wget \
 	unzip \
 	clinfo \
@@ -20,6 +20,8 @@ RUN apt-get update && \
 	ocl-icd-libopencl1 \
 	pocl-opencl-icd \
 	opencl-headers \
+	python3-pip \
+	rclone \
 	;
 
 RUN mkdir -p /etc/OpenCL/vendors && \
@@ -29,11 +31,15 @@ ENV NVIDIA_DRIVER_CAPABILITIES all
 
 ARG POSTCLI_VER=v0.9.2
 
-RUN wget https://github.com/spacemeshos/post/releases/download/${POSTCLI_VER}/postcli-Linux.zip -O postcli.zip
-RUN unzip postcli.zip
-RUN chmod +x postcli
+RUN wget https://github.com/spacemeshos/post/releases/download/${POSTCLI_VER}/postcli-Linux.zip -O postcli.zip && unzip postcli.zip && chmod +x postcli
+
+
+COPY upload/ ./upload/
+RUN pip install -r upload/requirements.txt
 
 COPY entrypoint.sh .
 
+CMD [ "sleep", "inf" ]
 ENTRYPOINT ["./entrypoint.sh"]
+
 

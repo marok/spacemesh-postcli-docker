@@ -37,5 +37,18 @@ clinfo -l
 	$GEN_POST_RANGE_ARG \
 	$ID_ARG
 
-sleep inf
+POSTCLI_RET=$?
 
+echo "postcli exit code: $POSTCLI_RET"
+
+if [ ! -z "$DROPBOX_APP_KEY" ] && [ ! -z "$DROPBOX_REFRESH_TOKEN" ] && [ ! -z "$DROPBOX_DST_DIR" ]
+then
+	./upload/upload.sh $DROPBOX_REFRESH_TOKEN $DROPBOX_APP_KEY $DATA_DIR $DROPBOX_DST_DIR
+fi
+
+if [ $POSTCLI_RET -eq 0 ]
+then
+	touch ~/postcli_finished
+fi
+
+$@
