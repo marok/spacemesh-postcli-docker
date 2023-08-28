@@ -43,7 +43,9 @@ echo "postcli exit code: $POSTCLI_RET"
 
 if [ ! -z "$DROPBOX_APP_KEY" ] && [ ! -z "$DROPBOX_REFRESH_TOKEN" ] && [ ! -z "$DROPBOX_DST_DIR" ]
 then
-	./upload/upload.sh $DROPBOX_REFRESH_TOKEN $DROPBOX_APP_KEY $DATA_DIR $DROPBOX_DST_DIR
+	echo "Starting dropbox upload: $DATA_DIR -> remote:$DROPBOX_DST_DIR"
+	./upload/upload.sh $DROPBOX_REFRESH_TOKEN $DROPBOX_APP_KEY $DATA_DIR $DROPBOX_DST_DIR &> ~/.rclone-db.log
+	echo "Finished dropbox upload: status=$?"
 fi
 
 if [ $POSTCLI_RET -eq 0 ]
