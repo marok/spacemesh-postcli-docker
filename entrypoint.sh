@@ -24,6 +24,13 @@ fi
 
 set -x
 
+if [ ! -z "$DROPBOX_APP_KEY" ] && [ ! -z "$DROPBOX_REFRESH_TOKEN" ] && [ ! -z "$DROPBOX_DST_DIR" ]
+then
+	echo "Starting dropbox upload in background: $DATA_DIR -> remote:$DROPBOX_DST_DIR"
+	./upload/upload.sh $DROPBOX_REFRESH_TOKEN $DROPBOX_APP_KEY $DATA_DIR $DROPBOX_DST_DIR &
+fi
+
+
 clinfo -l
 
 ./postcli -printProviders
@@ -44,8 +51,9 @@ echo "postcli exit code: $POSTCLI_RET"
 if [ ! -z "$DROPBOX_APP_KEY" ] && [ ! -z "$DROPBOX_REFRESH_TOKEN" ] && [ ! -z "$DROPBOX_DST_DIR" ]
 then
 	echo "Starting dropbox upload: $DATA_DIR -> remote:$DROPBOX_DST_DIR"
-	./upload/upload.sh $DROPBOX_REFRESH_TOKEN $DROPBOX_APP_KEY $DATA_DIR $DROPBOX_DST_DIR
-	echo "Finished dropbox upload: status=$?"
+	ps -fC 'upload.sh' >/dev/null || ./upload/upload.sh $DROPBOX_REFRESH_TOKEN $DROPBOX_APP_KEY $DATA_DIR $DROPBOX_DST_DIR
+	wait
+	echo "Finished dropbox upload"
 fi
 
 if [ $POSTCLI_RET -eq 0 ]
